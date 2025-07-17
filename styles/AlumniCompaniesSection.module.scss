@@ -1,0 +1,104 @@
+.alumniSection {
+  width: 100vw;
+  margin: 0;
+  padding: 0 0 2.5rem 0;
+  background: #f8fafc;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.heading {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #232946;
+  margin: 0 auto 1.5rem auto;
+  letter-spacing: 0.01em;
+  padding-top: 2.2rem;
+  background: transparent;
+}
+
+.marqueeWrapper {
+  width: 100vw;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 18px 0 rgba(60,72,100,0.06);
+  border-radius: 0;
+  margin: 0 auto;
+  padding: 0.7rem 0;
+  position: relative;
+}
+
+.marquee {
+  display: flex;
+  align-items: center;
+  gap: 4.5rem;
+  width: max-content;
+  animation: marqueeScroll 28s linear infinite;
+}
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.logoBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  min-height: 48px;
+  padding: 0 0.5rem;
+}
+
+.logoImg {
+  width: 80px;
+  height: 48px;
+  max-width: 120px;
+  max-height: 48px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  filter: none;
+  transition: transform 0.18s;
+}
+.logoImg:hover {
+  transform: scale(1.08);
+}
+
+@media (max-width: 900px) {
+  .heading {
+    font-size: 1.1rem;
+    padding-top: 1.2rem;
+  }
+  .marquee {
+    gap: 2.2rem;
+  }
+  .logoImg {
+    max-width: 80px;
+    max-height: 36px;
+  }
+  .logoBox {
+    min-width: 80px;
+    min-height: 36px;
+  }
+}
+@media (max-width: 600px) {
+  .alumniSection {
+    padding-bottom: 1.2rem;
+  }
+  .heading {
+    font-size: 1rem;
+    padding-top: 0.7rem;
+  }
+  .marquee {
+    gap: 1.1rem;
+  }
+  .logoImg {
+    max-width: 54px;
+    max-height: 24px;
+  }
+  .logoBox {
+    min-width: 54px;
+    min-height: 24px;
+  }
+} 

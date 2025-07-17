@@ -1,0 +1,28 @@
+{
+  "name": "edupath",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "bootstrap-icons": "^1.13.1",
+    "classnames": "^2.5.1",
+    "next": "15.3.4",
+    "pdf-lib": "^1.17.1",
+    "react": "^19.0.0",
+    "react-countup": "^6.5.3",
+    "react-dom": "^19.0.0",
+    "react-phone-input-2": "^2.15.1",
+    "sass": "^1.89.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}

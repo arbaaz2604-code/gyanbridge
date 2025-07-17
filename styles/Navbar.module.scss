@@ -1,0 +1,287 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 3vw;
+  background: linear-gradient(90deg, #f7ecd0 0%, #e7cba9 60%, #b97a56 100%);
+  background-size: 200% 200%;
+  animation: eduNavbarGradientMove 18s ease-in-out infinite;
+  border-bottom: none;
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 6px 32px 0 rgba(185, 122, 86, 0.13);
+  font-family: 'Poppins', 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin: 0 auto;
+  transition: background 0.22s, box-shadow 0.22s, border 0.22s;
+}
+
+@keyframes eduNavbarGradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-right: 2.2rem;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #7c3f18;
+  letter-spacing: 0.04em;
+}
+.logo::before {
+  content: '\1F393'; /* Graduation cap emoji as a simple icon */
+  font-size: 1.6rem;
+  margin-right: 0.6rem;
+  vertical-align: middle;
+}
+
+.navLink, .dropdownBtn, .callbackBtn, .loginBtn, .registerBtn {
+  background: none;
+  color: #7c3f18;
+  border: none;
+  border-radius: 12px;
+  padding: 0.7rem 1.3rem;
+  font-size: 1.08rem;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0.04em;
+  margin: 0 0.2rem;
+  transition: color 0.18s, background 0.18s, box-shadow 0.18s, border 0.18s, transform 0.18s, text-decoration 0.18s;
+  text-decoration: none;
+  position: relative;
+  outline: none;
+  box-shadow: none;
+  font-family: 'Poppins', 'Montserrat', 'Segoe UI', Arial, sans-serif;
+}
+.navLink:hover, .dropdownBtn:hover, .callbackBtn:hover, .loginBtn:hover, .registerBtn:hover,
+.navLink:focus, .dropdownBtn:focus, .callbackBtn:focus, .loginBtn:focus, .registerBtn:focus {
+  color: #a15c2f;
+  background: #f7ecd0;
+  box-shadow: 0 2px 16px 0 rgba(185,122,86,0.10);
+  text-decoration: underline;
+  transform: scale(1.04);
+}
+
+.navLink::after, .dropdownBtn::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2.5px;
+  background: #e7cba9;
+  border-radius: 2px;
+  transition: width 0.22s;
+  margin: 0.2rem auto 0 auto;
+}
+.navLink:hover::after, .dropdownBtn:hover::after {
+  width: 80%;
+  background: #e7cba9;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 1.7rem;
+  margin-left: auto;
+}
+
+.loginBtn, .registerBtn, .callbackBtn {
+  background: #f7ecd0;
+  color: #a15c2f;
+  box-shadow: 0 2px 12px #e7cba922;
+  border: 2px solid #e7cba9;
+  border-radius: 12px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin: 0 0.2rem;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s, border 0.18s, transform 0.18s;
+}
+.loginBtn:hover, .registerBtn:hover, .callbackBtn:hover,
+.loginBtn:focus, .registerBtn:focus, .callbackBtn:focus {
+  background: #e7cba9;
+  color: #7c3f18;
+  box-shadow: 0 4px 24px 0 #e7cba933;
+  border-color: #b97a56;
+  transform: scale(1.07);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownBtn {
+  background: #f7ecd0;
+  color: #a15c2f;
+  border: 2px solid #e7cba9;
+  border-radius: 12px;
+  padding: 0.7rem 1.5rem 0.7rem 1.9rem;
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow: 0 2px 12px #e7cba922;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  position: relative;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s, border 0.18s, transform 0.18s;
+}
+.dropdownBtn::before {
+  content: '\1F4D6'; /* Book emoji as icon */
+  font-size: 1.25rem;
+  margin-right: 0.3rem;
+  vertical-align: middle;
+  display: inline-block;
+}
+.dropdownBtn:hover, .dropdownBtn:focus {
+  background: #e7cba9;
+  color: #7c3f18;
+  box-shadow: 0 4px 24px 0 #e7cba933;
+  border-color: #b97a56;
+  transform: scale(1.06);
+}
+
+.dropdownMenu {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  background: #f7ecd0;
+  border-radius: 0 0 18px 18px;
+  box-shadow: 0 8px 32px 0 rgba(185, 122, 86, 0.13);
+  padding: 0.7rem 1.2rem;
+  margin-top: 0.2rem;
+  z-index: 1001;
+  min-width: 220px;
+  gap: 0.5rem;
+  border-top: 2px solid #e7cba9;
+  animation: dropdownFadeIn 0.22s;
+}
+
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdownItem {
+  color: #7c3f18;
+  background: none;
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem 1.1rem;
+  font-size: 1.04rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.16s, color 0.16s, box-shadow 0.16s, transform 0.16s;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: inherit;
+}
+.dropdownItem:hover, .dropdownItem:focus {
+  background: #e7cba9;
+  color: #a15c2f;
+  box-shadow: 0 2px 12px #e7cba922;
+  transform: scale(1.06);
+  text-decoration: underline;
+}
+
+// Show dropdown on hover for desktop
+@media (hover: hover) and (pointer: fine) {
+  .dropdown:hover .dropdownMenu {
+    display: flex !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    top: 0;
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border-radius: 0;
+  }
+  .leftSection {
+    gap: 1.2rem;
+  }
+  .logo {
+    margin-right: 1rem;
+  }
+  .navLink, .dropdownBtn, .callbackBtn, .loginBtn, .registerBtn {
+    padding: 0.6rem 0.7rem;
+    font-size: 0.98rem;
+  }
+  .rightSection {
+    gap: 1rem;
+  }
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  background: #f7ecd0;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #e7cba922;
+  padding: 0.15rem 0.5rem 0.15rem 0.7rem;
+  margin-right: 1.2rem;
+  border: 2px solid #e7cba9;
+  transition: box-shadow 0.18s, border 0.18s;
+}
+.searchBox:focus-within {
+  box-shadow: 0 4px 18px #e7cba933;
+  border-color: #b97a56;
+}
+
+.searchInput {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1.05rem;
+  color: #7c3f18;
+  padding: 0.5rem 0.7rem 0.5rem 0;
+  font-family: inherit;
+  width: 160px;
+}
+.searchInput::placeholder {
+  color: #b97a56;
+  opacity: 0.8;
+  font-weight: 400;
+}
+
+.searchIconBtn {
+  background: none;
+  border: none;
+  color: #a15c2f;
+  font-size: 1.3rem;
+  padding: 0.3rem 0.7rem 0.3rem 0.3rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.16s, color 0.16s, box-shadow 0.16s;
+}
+.searchIconBtn:hover, .searchIconBtn:focus {
+  background: #e7cba9;
+  color: #7c3f18;
+  box-shadow: 0 2px 8px #e7cba922;
+}
+
+.searchIconBtn .searchIcon {
+  font-size: 1.3rem;
+  display: inline-block;
+  vertical-align: middle;
+} 

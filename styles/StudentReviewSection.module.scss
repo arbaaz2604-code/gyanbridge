@@ -1,0 +1,254 @@
+.reviewSection {
+  width: 100vw;
+  max-width: 100vw;
+  background: linear-gradient(90deg, #fdf6e3 0%, #fbeee6 100%);
+  padding: 0;
+  margin: 0;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 8px 32px 0 rgba(220, 180, 120, 0.10);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reviewContainer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 64px 24px 64px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reviewHeader {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.reviewTitle {
+  font-size: 2.3rem;
+  font-weight: 800;
+  color: #7c3f18;
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+}
+
+.reviewSubtitle {
+  color: #334155;
+  font-size: 1.13rem;
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+
+.reviewCard {
+  background: #fffbe9;
+  border: 2px solid #f3e1b8;
+  border-radius: 2rem;
+  box-shadow: 0 4px 18px rgba(220, 180, 120, 0.10);
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 48px;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  transition: box-shadow 0.22s, border 0.22s, transform 0.22s, background 0.22s;
+  min-height: 240px;
+  box-sizing: border-box;
+  /* For vertical centering */
+  justify-content: center;
+}
+
+.reviewContent {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  justify-content: center;
+  min-width: 0;
+}
+
+.reviewText {
+  font-size: 1.18rem;
+  color: #7c3f18;
+  font-weight: 500;
+  line-height: 1.7;
+  margin-bottom: 0;
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  max-width: 100%;
+}
+
+.reviewRatingRow {
+  margin-top: 10px;
+}
+
+.reviewRating {
+  font-size: 1.13rem;
+  color: #eab308;
+  font-weight: 700;
+  background: #fffbe9;
+  border-radius: 1rem;
+  padding: 6px 18px;
+  box-shadow: 0 2px 8px #fbeee6cc;
+}
+
+.reviewStudent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  background: #fbeee6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px #fbeee6cc;
+  margin-bottom: 8px;
+}
+
+.avatarEmoji {
+  font-size: 2.5rem;
+}
+
+.studentInfo {
+  text-align: center;
+}
+
+.studentName {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #a15c2f;
+  display: block;
+}
+
+.studentRole {
+  font-size: 1.01rem;
+  color: #7c3f18;
+  font-weight: 500;
+}
+
+.sliderWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 18px auto;
+}
+
+.arrowBtn {
+  background: #fffbe9;
+  border: 2px solid #f3e1b8;
+  color: #a15c2f;
+  font-size: 2.1rem;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #fbeee6cc;
+  transition: background 0.18s, box-shadow 0.18s, color 0.18s, border 0.18s, transform 0.18s;
+  outline: none;
+  margin: 0 8px;
+}
+.arrowBtn:hover, .arrowBtn:focus {
+  background: #fbeee6;
+  color: #7c3f18;
+  border-color: #e7cba9;
+  transform: scale(1.08);
+}
+
+.dotsRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+.dot, .dotActive {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #f3e1b8;
+  display: inline-block;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.18s;
+  border: 2px solid #fffbe9;
+}
+.dotActive {
+  background: #eab308;
+  transform: scale(1.18);
+  border: 2px solid #a15c2f;
+}
+
+@media (max-width: 900px) {
+  .reviewCard {
+    flex-direction: column;
+    gap: 24px;
+    padding: 32px 12px;
+    min-height: 200px;
+  }
+  .reviewContainer {
+    padding: 32px 4px 32px 4px;
+  }
+  .sliderWrapper {
+    gap: 8px;
+    max-width: 100vw;
+  }
+  .arrowBtn {
+    width: 38px;
+    height: 38px;
+    font-size: 1.5rem;
+  }
+  .dotsRow {
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .dot, .dotActive {
+    width: 9px;
+    height: 9px;
+  }
+}
+
+@media (max-width: 600px) {
+  .reviewTitle {
+    font-size: 1.3rem;
+  }
+  .reviewText {
+    font-size: 1.01rem;
+  }
+  .reviewCard {
+    padding: 18px 2px;
+    border-radius: 1.1rem;
+    min-height: 120px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+  }
+  .avatarEmoji {
+    font-size: 1.5rem;
+  }
+} 
