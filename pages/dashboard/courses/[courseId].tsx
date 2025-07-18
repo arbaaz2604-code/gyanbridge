@@ -222,31 +222,6 @@ export default function CourseDetails() {
     if (replyInputRef.current) replyInputRef.current.value = '';
   }
 
-  // Upvote question or reply
-  function upvoteQuestion(qid: string) {
-    const newQuestions = questions.map(q =>
-      q.id === qid ? { ...q, upvotes: q.upvotes + 1 } : q
-    );
-    setQuestions(newQuestions);
-    saveQuestions(newQuestions);
-  }
-  function upvoteReply(qid: string, rid: string) {
-    const newQuestions = questions.map(q =>
-      q.id === qid ? { ...q, replies: q.replies.map(r => r.id === rid ? { ...r, upvotes: r.upvotes + 1 } : r) } : q
-    );
-    setQuestions(newQuestions);
-    saveQuestions(newQuestions);
-  }
-
-  // Mark as best answer
-  function markBestAnswer(qid: string, rid: string) {
-    const newQuestions = questions.map(q =>
-      q.id === qid ? { ...q, replies: q.replies.map(r => ({ ...r, isBest: r.id === rid })), resolved: true } : q
-    );
-    setQuestions(newQuestions);
-    saveQuestions(newQuestions);
-  }
-
   // Edit/delete moderation
   function handleEdit(qid: string, text: string) {
     setEditId(qid);
