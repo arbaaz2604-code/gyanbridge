@@ -10,6 +10,7 @@ const sidebarItems = [
   { icon: '📚', label: 'Dashboard', path: '/dashboard' },
   { icon: '📝', label: 'My Courses', path: '/dashboard/courses' },
   { icon: '🧑‍🏫', label: 'Assignments', path: '/dashboard/assignments' },
+  { icon: '💻', label: 'Projects', path: '/dashboard/projects' },
   { icon: '📅', label: 'Schedule / Calendar', path: '/dashboard/calendar' },
   { icon: '🏆', label: 'Achievements', path: '/dashboard/achievements' },
   { icon: '💬', label: 'Messages', path: '/dashboard/messages' },

@@ -94,7 +94,6 @@ export default function Register() {
               />
               <label htmlFor="password">Create Password:</label>
               <div className={styles.inputWithIcon}>
-                <i className="bi bi-lock-fill"></i>
                 <input
                   type="password"
                   id="password"

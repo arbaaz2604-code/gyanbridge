@@ -67,9 +67,9 @@ const completedCourses = [
   // Add more as needed
 ];
 
-// Only show assignments for completed courses
+// Show assignments for all enrolled courses (immediately upon enrollment)
 export const filteredAssignments = assignments.filter(a =>
-  completedCourses.some(c => c.name === a.course)
+  enrolledCourses.includes(a.course)
 );
 
 export default function Assignments() {

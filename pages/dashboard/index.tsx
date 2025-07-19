@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import DashboardLayout from '../../components/DashboardLayout';
 import styles from '../../styles/Home.module.css';
@@ -7,6 +6,14 @@ import { courseModuleCounts } from './courses/[courseId]';
 import { FaBookOpen, FaCheckCircle, FaHourglassHalf, FaCertificate } from 'react-icons/fa';
 // @ts-ignore
 import type {} from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+
+type LiveClass = {
+  id: number;
+  title: string;
+  start: string;
+  end: string;
+};
 
 const sidebarItems = [
   { icon: '📚', label: 'Dashboard', path: '/dashboard' },
@@ -149,45 +156,108 @@ export default function Dashboard() {
             </div>
           ))}
         </div>
+        {/* Announcements Section */}
+        <div style={{ marginBottom: 38 }}>
+          <div style={{ fontWeight: 700, fontSize: 22, marginBottom: 16, color: '#232946', letterSpacing: '-0.5px' }}>Announcements</div>
+          <div style={{ display: 'flex', gap: 22, flexWrap: 'wrap' }}>
+            {announcements.map((a, idx) => (
+              <div
+                key={a.title + a.date}
+                style={{
+                  background: '#fff',
+                  borderRadius: 16,
+                  boxShadow: '0 4px 16px 0 rgba(30,41,59,0.08)',
+                  padding: '1.4rem 1.6rem 1.2rem 1.2rem',
+                  minWidth: 270,
+                  maxWidth: 340,
+                  marginBottom: 12,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'flex-start',
+                  gap: 16,
+                  borderLeft: '5px solid #2563eb',
+                  transition: 'box-shadow 0.18s, transform 0.18s',
+                  cursor: 'pointer',
+                  position: 'relative',
+                  outline: 'none',
+                }}
+                onMouseOver={e => {
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 8px 32px 0 rgba(37,99,235,0.13)';
+                  (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px) scale(1.02)';
+                }}
+                onMouseOut={e => {
+                  (e.currentTarget as HTMLDivElement).style.boxShadow = '0 4px 16px 0 rgba(30,41,59,0.08)';
+                  (e.currentTarget as HTMLDivElement).style.transform = 'none';
+                }}
+                tabIndex={0}
+              >
+                <div style={{ fontSize: 28, color: '#2563eb', marginRight: 8, marginTop: 2 }} aria-label="announcement" role="img">📢</div>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  <div style={{ fontWeight: 700, fontSize: 17, color: '#232946', marginBottom: 2 }}>{a.title}</div>
+                  <div style={{ fontSize: 14, color: '#64748b', fontWeight: 500 }}>{a.date}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
         {/* Continue Learning Carousel */}
         <div style={{ marginBottom: 38 }}>
           <div style={{ fontWeight: 700, fontSize: 22, marginBottom: 16, color: '#232946', letterSpacing: '-0.5px' }}>Continue Learning</div>
-          <div style={{ display: 'flex', gap: 22, overflowX: 'auto', paddingBottom: 8 }}>
+          <div style={{ display: 'flex', gap: 24, overflowX: 'auto', paddingBottom: 8 }}>
             {continueLearning.length === 0 && (
-              <div style={{ color: '#64748b', fontSize: 16, padding: 24, background: '#fff', borderRadius: 12, minWidth: 260, textAlign: 'center' }}>No courses in progress. Start learning a new course!</div>
+              <div style={{ color: '#64748b', fontSize: 16, padding: 24, background: '#fff', borderRadius: 14, minWidth: 260, textAlign: 'center', boxShadow: '0 2px 8px 0 rgba(30,41,59,0.06)' }}>No courses in progress. Start learning a new course!</div>
             )}
             {continueLearning.map(course => (
               <div key={course.name} style={{
                 background: '#fff',
-                borderRadius: 16,
-                boxShadow: '0 2px 12px 0 rgba(30,41,59,0.07)',
-                minWidth: 280,
+                borderRadius: 18,
+                boxShadow: '0 2px 12px 0 rgba(30,41,59,0.06)',
+                minWidth: 260,
                 maxWidth: 320,
-                padding: '1.5rem 1.6rem',
+                padding: '1.3rem 1.3rem 1.1rem 1.1rem',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 14,
+                gap: 12,
                 alignItems: 'flex-start',
                 position: 'relative',
-              }}>
-                <div style={{ fontWeight: 700, fontSize: 18, color: '#232946', marginBottom: 2 }}>{course.name}</div>
-                <div style={{ height: 10, background: '#e5e7eb', borderRadius: 5, overflow: 'hidden', width: '100%', margin: '8px 0' }}>
-                  <div style={{ width: `${course.progress}%`, height: '100%', background: '#2563eb', borderRadius: 5, transition: 'width 0.3s' }}></div>
+                borderLeft: '4px solid #60a5fa',
+                transition: 'box-shadow 0.18s, transform 0.18s',
+                cursor: 'pointer',
+              }}
+              onMouseOver={e => {
+                (e.currentTarget as HTMLDivElement).style.boxShadow = '0 8px 24px 0 rgba(37,99,235,0.10)';
+                (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px) scale(1.01)';
+              }}
+              onMouseOut={e => {
+                (e.currentTarget as HTMLDivElement).style.boxShadow = '0 2px 12px 0 rgba(30,41,59,0.06)';
+                (e.currentTarget as HTMLDivElement).style.transform = 'none';
+              }}
+              tabIndex={0}
+              >
+                <div style={{ fontSize: 22, color: '#60a5fa', marginBottom: 2, marginRight: 4 }} aria-label="course" role="img">📘</div>
+                <div style={{ fontWeight: 700, fontSize: 17, color: '#232946', marginBottom: 2 }}>{course.name}</div>
+                <div style={{ height: 8, background: '#e5e7eb', borderRadius: 6, overflow: 'hidden', width: '100%', margin: '8px 0' }}>
+                  <div style={{ width: `${course.progress}%`, height: '100%', background: 'linear-gradient(90deg, #60a5fa 0%, #2563eb 100%)', borderRadius: 6, transition: 'width 0.3s' }}></div>
                 </div>
-                <div style={{ fontSize: 15, color: '#64748b' }}>{course.progress}% complete</div>
+                <div style={{ fontSize: 14, color: '#64748b', fontWeight: 500 }}>{course.progress}% complete</div>
                 <button style={{
-                  background: '#2563eb',
+                  background: 'linear-gradient(90deg, #60a5fa 0%, #2563eb 100%)',
                   color: '#fff',
                   border: 'none',
-                  borderRadius: 8,
-                  padding: '9px 0',
-                  fontWeight: 700,
-                  fontSize: 16,
+                  borderRadius: 7,
+                  padding: '8px 0',
+                  fontWeight: 600,
+                  fontSize: 15,
                   cursor: 'pointer',
                   marginTop: 4,
                   width: '100%',
-                  boxShadow: '0 1px 4px 0 rgba(37,99,235,0.08)',
-                  letterSpacing: '0.5px',
+                  boxShadow: '0 1px 4px 0 rgba(37,99,235,0.06)',
+                  letterSpacing: '0.3px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 7,
+                  transition: 'background 0.18s',
                 }}
                   onClick={() => {
                     router.push({
@@ -196,66 +266,77 @@ export default function Dashboard() {
                     });
                   }}
                 >
-                  ▶️ Resume
+                  <span style={{ fontSize: 17 }}>▶️</span> Resume
                 </button>
               </div>
             ))}
           </div>
         </div>
-        {/* Upcoming Schedule */}
+        {/* Upcoming Schedule Section */}
         <div style={{ marginBottom: 38 }}>
           <div style={{ fontWeight: 700, fontSize: 22, marginBottom: 16, color: '#232946', letterSpacing: '-0.5px' }}>Upcoming Schedule</div>
-          <div style={{
-            background: '#fff',
-            borderRadius: 16,
-            boxShadow: '0 2px 12px 0 rgba(30,41,59,0.07)',
-            padding: '1.5rem 1.6rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            maxWidth: 480,
-            minWidth: 260,
-          }}>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: 18, color: '#232946' }}>Next class: React Fundamentals</div>
-              <div style={{ fontSize: 15, color: '#64748b', marginTop: 2 }}>14 July, 8:00 PM</div>
-            </div>
-            <button style={{
-              background: '#059669',
-              color: '#fff',
-              border: 'none',
-              borderRadius: 8,
-              padding: '10px 22px',
-              fontWeight: 700,
-              fontSize: 16,
+          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+            {/* Demo: Next class card */}
+            <div style={{
+              background: '#fff',
+              borderRadius: 18,
+              boxShadow: '0 2px 12px 0 rgba(30,41,59,0.06)',
+              minWidth: 260,
+              maxWidth: 320,
+              marginBottom: 12,
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+              gap: 14,
+              borderLeft: '4px solid #059669',
+              transition: 'box-shadow 0.18s, transform 0.18s',
               cursor: 'pointer',
-              marginLeft: 18,
-              boxShadow: '0 1px 4px 0 rgba(5,150,105,0.08)',
-            }}>
-              🔗 Join
-            </button>
-          </div>
-        </div>
-        {/* Announcements Section */}
-        <div>
-          <div style={{ fontWeight: 700, fontSize: 22, marginBottom: 16, color: '#232946', letterSpacing: '-0.5px' }}>Announcements</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-            {announcements.map(a => (
-              <div key={a.title} style={{
-                background: '#fff',
-                borderRadius: 14,
-                boxShadow: '0 2px 12px 0 rgba(30,41,59,0.07)',
-                padding: '1.2rem 1.4rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-                <div>
-                  <div style={{ fontWeight: 600, fontSize: 16, color: '#232946' }}>{a.title}</div>
-                  <div style={{ fontSize: 13, color: '#64748b', marginTop: 2 }}>{a.date}</div>
-                </div>
+              position: 'relative',
+              outline: 'none',
+              padding: '1.3rem 1.3rem 1.1rem 1.1rem',
+            }}
+              onMouseOver={e => {
+                (e.currentTarget as HTMLDivElement).style.boxShadow = '0 8px 24px 0 rgba(5,150,105,0.10)';
+                (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px) scale(1.01)';
+              }}
+              onMouseOut={e => {
+                (e.currentTarget as HTMLDivElement).style.boxShadow = '0 2px 12px 0 rgba(30,41,59,0.06)';
+                (e.currentTarget as HTMLDivElement).style.transform = 'none';
+              }}
+              tabIndex={0}
+            >
+              <div style={{ fontSize: 26, color: '#059669', marginRight: 8, marginTop: 2 }} aria-label="calendar" role="img">📅</div>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <div style={{ fontWeight: 700, fontSize: 16, color: '#232946', marginBottom: 2 }}>Next class: React Fundamentals</div>
+                <div style={{ fontSize: 13, color: '#64748b', fontWeight: 500 }}>14 July, 8:00 PM</div>
+                <button style={{
+                  background: 'linear-gradient(90deg, #34d399 0%, #059669 100%)',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: 7,
+                  padding: '7px 0',
+                  fontWeight: 600,
+                  fontSize: 14,
+                  cursor: 'pointer',
+                  marginTop: 10,
+                  width: 100,
+                  boxShadow: '0 1px 4px 0 rgba(5,150,105,0.06)',
+                  letterSpacing: '0.3px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 7,
+                  transition: 'background 0.18s',
+                }}
+                  onClick={() => {
+                    // Demo: join link
+                    window.open('https://zoom.us/j/123456789', '_blank');
+                  }}
+                >
+                  <span style={{ fontSize: 16 }}>🔗</span> Join
+                </button>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>

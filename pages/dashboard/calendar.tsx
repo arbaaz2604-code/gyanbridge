@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import DashboardLayout from '../../components/DashboardLayout';
 // Import assignments from assignments.tsx
 import { assignments, filteredAssignments } from './assignments';
-import React from 'react';
 
 const sidebarItems = [
   { icon: '📚', label: 'Dashboard', path: '/dashboard' },
@@ -39,6 +38,47 @@ const events = [
   ...assignmentEvents,
 ];
 
+// Mocked live class schedule (replace with API data as needed)
+const liveClasses: LiveClass[] = [
+  {
+    id: 1,
+    title: 'React Fundamentals Live Class',
+    start: '2024-07-01T14:00:00',
+    end: '2024-07-01T16:00:00',
+  },
+  {
+    id: 2,
+    title: 'Python Basics Live Class',
+    start: '2024-07-02T10:00:00',
+    end: '2024-07-02T12:00:00',
+  },
+  // Add more classes as needed
+];
+
+type LiveClass = {
+  id: number;
+  title: string;
+  start: string;
+  end: string;
+};
+
+function getCurrentLiveClass(classes: LiveClass[]): LiveClass | undefined {
+  const now = new Date();
+  return classes.find(
+    (cls: LiveClass) => new Date(cls.start) <= now && now <= new Date(cls.end)
+  );
+}
+
+function getLiveClassProgress(liveClass: LiveClass | undefined): number {
+  if (!liveClass) return 0;
+  const now = new Date();
+  const start = new Date(liveClass.start);
+  const end = new Date(liveClass.end);
+  const total = (end.getTime() - start.getTime()) / 1000;
+  const elapsed = (now.getTime() - start.getTime()) / 1000;
+  return Math.max(0, Math.min(100, (elapsed / total) * 100));
+}
+
 function getMonthDays(year: number, month: number) {
   const date = new Date(year, month, 1);
   const days = [];
@@ -57,6 +97,8 @@ export default function CalendarPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalAssignments, setModalAssignments] = useState<any[]>([]);
   const [modalDate, setModalDate] = useState<string>('');
+  const [currentLiveClass, setCurrentLiveClass] = useState(getCurrentLiveClass(liveClasses));
+  const [liveProgress, setLiveProgress] = useState(getLiveClassProgress(currentLiveClass));
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -68,6 +110,15 @@ export default function CalendarPage() {
       }
     }
   }, [router]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const live = getCurrentLiveClass(liveClasses);
+      setCurrentLiveClass(live);
+      setLiveProgress(getLiveClassProgress(live));
+    }, 1000 * 30); // update every 30 seconds
+    return () => clearInterval(interval);
+  }, []);
 
   if (loading) return null;
 
@@ -231,6 +282,30 @@ export default function CalendarPage() {
             </div>
           ))}
         </div>
+      </div>
+      <div style={{ marginBottom: 32 }}>
+        <div style={{ fontWeight: 700, fontSize: 18, marginBottom: 8 }}>Live Class Progress</div>
+        {currentLiveClass ? (
+          <>
+            <div style={{ fontWeight: 600, fontSize: 16, marginBottom: 4 }}>{currentLiveClass.title}</div>
+            <div style={{ height: 18, background: '#e5e7eb', borderRadius: 8, overflow: 'hidden', marginBottom: 6, maxWidth: 400 }}>
+              <div
+                style={{
+                  width: `${liveProgress}%`,
+                  height: '100%',
+                  background: '#2563eb',
+                  borderRadius: 8,
+                  transition: 'width 0.3s',
+                }}
+              ></div>
+            </div>
+            <div style={{ fontSize: 15, color: '#2563eb', fontWeight: 600 }}>
+              {Math.round(liveProgress)}% complete
+            </div>
+          </>
+        ) : (
+          <div style={{ fontSize: 15, color: '#64748b', fontWeight: 500 }}>No live class right now.</div>
+        )}
       </div>
     </DashboardLayout>
   );

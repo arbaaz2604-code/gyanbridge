@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState, useRef } from 'react';
 import DashboardLayout from '../../../components/DashboardLayout';
 import { courses } from '../courses';
+import { assignments } from '../assignments';
 // Demo user info
 const demoUser = { name: 'Arbaz', avatar: '🧑' };
 const randomAvatars = ['🧑', '👩‍💻', '👨‍🎓', '👩‍🎓', '👨‍💻', '🧑‍💻'];
@@ -143,7 +144,7 @@ export default function CourseDetails() {
 
   const videos = courseVideos[course?.slug] || [];
   const [selectedVideoIdx, setSelectedVideoIdx] = useState(0);
-  const [activeTab, setActiveTab] = useState<'notes' | 'qa' | 'projects'>('notes');
+  const [activeTab, setActiveTab] = useState<'notes' | 'qa' | 'projects' | 'assignments'>('notes');
 
   useEffect(() => {
     if (router.query.module && !isNaN(Number(router.query.module))) {
@@ -353,6 +354,15 @@ export default function CourseDetails() {
                   >Q&amp;A</button>
                   <button
                     type="button"
+                    onClick={() => setActiveTab('assignments')}
+                    style={{
+                      ...tabButtonBase,
+                      color: activeTab === 'assignments' ? '#2563eb' : '#64748b',
+                      borderBottom: activeTab === 'assignments' ? '3px solid #2563eb' : '3px solid transparent',
+                    }}
+                  >Assignments</button>
+                  <button
+                    type="button"
                     onClick={() => setActiveTab('projects')}
                     style={{
                       ...tabButtonBase,
@@ -463,6 +473,41 @@ export default function CourseDetails() {
                       )}
                     </div>
                   )}
+                  {activeTab === 'assignments' && (
+                    <div style={{
+                      background: '#f8fafc',
+                      borderRadius: 16,
+                      boxShadow: '0 2px 12px 0 rgba(30,41,59,0.07)',
+                      padding: '2rem 1.5rem',
+                      margin: '0 auto',
+                      maxWidth: 600,
+                      color: '#232946',
+                      fontSize: 15,
+                    }}>
+                      <div style={{ fontWeight: 700, fontSize: 20, marginBottom: 18, textAlign: 'center' }}>Assignments for {course?.title}</div>
+                      {assignments.filter(a => a.course === course?.title).length === 0 ? (
+                        <div style={{ color: '#64748b', fontSize: 16, textAlign: 'center' }}>No assignments yet. Assignments for this course will be shown here.</div>
+                      ) : (
+                        assignments.filter(a => a.course === course?.title).map(a => (
+                          <div key={a.title + a.course} style={{
+                            background: '#fff',
+                            borderRadius: 12,
+                            boxShadow: '0 1px 4px 0 rgba(30,41,59,0.04)',
+                            padding: '1.2rem 1rem',
+                            marginBottom: 18,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 8,
+                          }}>
+                            <div style={{ fontWeight: 600, fontSize: 17, marginBottom: 2 }}>{a.title}</div>
+                            <div style={{ fontSize: 15, color: '#64748b', marginBottom: 4 }}>{a.description}</div>
+                            <div style={{ fontSize: 14, color: '#2563eb', marginBottom: 2 }}>Due: {a.dueDate}</div>
+                            <div style={{ fontSize: 14, color: a.status === 'Completed' ? '#059669' : '#ef4444', fontWeight: 600 }}>Status: {a.status}</div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  )}
                   {activeTab === 'projects' && (
                     <div style={{
                       background: '#f8fafc',
@@ -503,34 +548,26 @@ export default function CourseDetails() {
               {videos.map((video, idx: number) => (
                 <div
                   key={video.title + idx}
-                  onClick={() => {
-                    if (idx <= completedModules) setSelectedVideoIdx(idx);
-                  }}
+                  onClick={() => setSelectedVideoIdx(idx)}
                   style={{
                     padding: '15px 18px',
                     borderRadius: 10,
                     background: idx === selectedVideoIdx ? 'linear-gradient(90deg, #2563eb 0%, #60a5fa 100%)' : '#fff',
-                    color: idx === selectedVideoIdx ? '#fff' : idx > completedModules ? '#b0b4c1' : '#232946',
+                    color: idx === selectedVideoIdx ? '#fff' : '#232946',
                     fontWeight: idx === selectedVideoIdx ? 700 : 500,
-                    cursor: idx > completedModules ? 'not-allowed' : 'pointer',
+                    cursor: 'pointer',
                     boxShadow: idx === selectedVideoIdx ? '0 2px 8px 0 rgba(37,99,235,0.10)' : 'none',
                     border: '1.5px solid #e5e7eb',
                     marginBottom: 8,
                     transition: 'background 0.2s, color 0.2s',
                     position: 'relative',
                     outline: idx === selectedVideoIdx ? '2px solid #2563eb' : 'none',
-                    opacity: idx < completedModules ? 0.7 : idx > completedModules ? 0.5 : 1,
+                    opacity: 1,
                   }}
                   onMouseOver={e => (e.currentTarget.style.background = idx === selectedVideoIdx ? 'linear-gradient(90deg, #2563eb 0%, #60a5fa 100%)' : '#f1f5f9')}
                   onMouseOut={e => (e.currentTarget.style.background = idx === selectedVideoIdx ? 'linear-gradient(90deg, #2563eb 0%, #60a5fa 100%)' : '#fff')}
                 >
                   {video.title}
-                  {idx < completedModules && (
-                    <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', color: '#059669', fontWeight: 900, fontSize: 18 }}>✓</span>
-                  )}
-                  {idx > completedModules && (
-                    <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', color: '#b0b4c1', fontWeight: 900, fontSize: 18 }}>🔒</span>
-                  )}
                   {idx === selectedVideoIdx && (
                     <span style={{
                       position: 'absolute',
@@ -540,31 +577,6 @@ export default function CourseDetails() {
                       fontSize: 18,
                       color: '#fff',
                     }}>▶</span>
-                  )}
-                  {/* Mark as Complete button */}
-                  {idx === selectedVideoIdx && idx === completedModules && (
-                    <button
-                      onClick={e => { e.stopPropagation(); markModuleComplete(idx); }}
-                      style={{
-                        marginLeft: 12,
-                        background: 'linear-gradient(90deg, #059669 0%, #34d399 100%)',
-                        color: '#fff',
-                        border: 'none',
-                        borderRadius: 8,
-                        padding: '7px 18px',
-                        fontWeight: 700,
-                        fontSize: 14,
-                        cursor: 'pointer',
-                        boxShadow: '0 1px 4px 0 rgba(5,150,105,0.10)',
-                        position: 'absolute',
-                        right: 18,
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        transition: 'background 0.2s, color 0.2s',
-                      }}
-                    >
-                      ✓ Mark as Complete
-                    </button>
                   )}
                 </div>
               ))}

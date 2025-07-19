@@ -3,6 +3,15 @@ import { useRouter } from 'next/router';
 import styles from '../styles/Navbar.module.scss';
 import Image from 'next/image';
 import { filteredAssignments } from '../pages/dashboard/assignments';
+import { courses } from '../pages/dashboard/courses';
+// Define projects for each course
+const projects = [
+  { title: 'React Portfolio Project', course: 'React Fundamentals', dueDate: '2025-07-30' },
+  { title: 'Python Capstone', course: 'Python for Beginners', dueDate: '2025-08-02' },
+  { title: 'Data Science Final Project', course: 'Data Science 101', dueDate: '2025-08-05' },
+  { title: 'Web Dev Final Project', course: 'Web Development', dueDate: '2025-08-10' },
+  { title: 'ML Capstone', course: 'Machine Learning Basics', dueDate: '2025-08-15' },
+];
 
 const completedCourses = [
   { name: 'Python for Beginners', completedAt: '2025-07-16' },
@@ -23,7 +32,7 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({ onMenuClick }) => {
   const profileRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  // Notifications: completed courses and assignments assigned
+  // Notifications: completed courses, assignments, and projects assigned
   const notifications = [
     ...completedCourses.map(c => ({
       type: 'course',
@@ -35,7 +44,18 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({ onMenuClick }) => {
       message: `Assignment assigned: ${a.title} (${a.course})`,
       date: a.dueDate,
     })),
-  ];
+    // Add project assignment notifications for completed courses
+    ...completedCourses.map(c => {
+      const project = projects.find(p => p.course === c.name);
+      return project
+        ? {
+            type: 'project',
+            message: `Project assigned: ${project.title} (${project.course})`,
+            date: project.dueDate,
+          }
+        : null;
+    }).filter(Boolean),
+  ].reverse(); // Latest notification at the top
   const unreadCount = notifRead ? 0 : notifications.length;
 
   useEffect(() => {
@@ -57,6 +77,18 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({ onMenuClick }) => {
     localStorage.removeItem('isLoggedIn');
     router.push('/'); // Redirect to landing page
   };
+
+  // Helper to format time ago
+  function timeAgo(dateString: string) {
+    const now = new Date();
+    const date = new Date(dateString);
+    const diff = (now.getTime() - date.getTime()) / 1000; // seconds
+    if (diff < 60) return 'just now';
+    if (diff < 3600) return `${Math.floor(diff / 60)} min ago`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)} hour${Math.floor(diff / 3600) > 1 ? 's' : ''} ago`;
+    if (diff < 2592000) return `${Math.floor(diff / 86400)} day${Math.floor(diff / 86400) > 1 ? 's' : ''} ago`;
+    return date.toLocaleDateString();
+  }
 
   return (
     <nav className={styles.navbar}>
@@ -173,32 +205,46 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({ onMenuClick }) => {
               <div style={{ fontWeight: 800, fontSize: 16, color: '#232946', padding: '16px 20px 10px 20px', borderBottom: '1px solid #e5e7eb', marginBottom: 0, textAlign: 'left', letterSpacing: '-0.5px', background: 'transparent' }}>
                 Notifications
               </div>
-              {notifications.length === 0 ? (
-                <div style={{ color: '#64748b', fontSize: 14, padding: '18px 20px', textAlign: 'center', background: 'transparent' }}>No notifications</div>
-              ) : notifications.map((n, idx) => (
-                <div key={n.message + idx} style={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: 12,
-                  padding: '14px 20px',
-                  fontSize: 14,
-                  color: '#232946',
-                  borderBottom: idx !== notifications.length - 1 ? '1px solid #e5e7eb' : 'none',
-                  background: 'transparent',
-                  position: 'relative',
-                  transition: 'background 0.18s',
-                  boxShadow: n.type === 'assignment' ? '0 1px 6px 0 rgba(60,72,100,0.06)' : 'none',
-                  borderRadius: 8,
-                }}>
-                  <span style={{ fontSize: 18, marginTop: 2, color: n.type === 'assignment' ? '#2563eb' : '#f59e42' }}>
-                    {n.type === 'assignment' ? '📝' : '🎓'}
-                  </span>
-                  <div style={{ flex: 1 }}>
-                    <span style={{ fontWeight: 600 }}>{n.message}</span>
-                    <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>{n.date}</div>
-                  </div>
-                </div>
-              ))}
+              <div style={{
+                maxHeight: 6 * 64 + 24, // 6 notifications, each ~64px tall, plus header
+                overflowY: notifications.length > 6 ? 'auto' : 'visible',
+                paddingBottom: 4,
+              }}>
+                {notifications.length === 0 ? (
+                  <div style={{ color: '#64748b', fontSize: 14, padding: '18px 20px', textAlign: 'center', background: 'transparent' }}>No notifications</div>
+                ) : notifications.filter(Boolean).map((n, idx) => {
+                    if (!n) return null;
+                    return (
+                      <div key={n.message + idx} style={{
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: 12,
+                        padding: '14px 20px',
+                        fontSize: 14,
+                        color: '#232946',
+                        borderBottom: idx !== notifications.length - 1 ? '1px solid #e5e7eb' : 'none',
+                        background: 'transparent',
+                        position: 'relative',
+                        transition: 'background 0.18s',
+                        boxShadow: n.type === 'assignment' ? '0 1px 6px 0 rgba(60,72,100,0.06)' : 'none',
+                        borderRadius: 8,
+                      }}>
+                        <span style={{ fontSize: 18, marginTop: 2, color: n.type === 'assignment' ? '#2563eb' : n.type === 'project' ? '#a21caf' : '#f59e42' }}>
+                          {n.type === 'assignment' ? '📝' : n.type === 'project' ? '💻' : '🎓'}
+                        </span>
+                        <div style={{ flex: 1 }}>
+                          <span style={{ fontWeight: 600 }}>{n.message}</span>
+                          <div
+                            style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}
+                            title={new Date(n.date).toLocaleString()}
+                          >
+                            {n.date} · <span style={{ color: '#2563eb' }}>{timeAgo(n.date)}</span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
             </div>
           )}
         </span>

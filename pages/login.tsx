@@ -63,7 +63,6 @@ export default function Login() {
               </div>
               <label htmlFor="password">Password:</label>
               <div className={styles.inputWithIcon}>
-                <i className="bi bi-lock-fill"></i>
                 <input
                   type="password"
                   id="password"
